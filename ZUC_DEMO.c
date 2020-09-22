@@ -1,8 +1,4 @@
-/**
- * Created by Xiaozhong on 2020/9/21.
- * Copyright (c) 2020/9/21 Xiaozhong. All rights reserved.
- */
-
+#include "ZUC.h"
 /* ——————————————————————- */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -191,7 +187,7 @@ u32 F() {
 #define MAKEU31(a, b, c) (((u32)(a) << 23) | ((u32)(b) << 8) | (u32)(c))
 
 /* initialize */
-void Initialization(u8 *k, u8 *iv) {
+void Initialization(unsigned char *k, unsigned char *iv) {
     u32 w, nCount;
 /* expand key */
     LFSR_S0 = MAKEU31(k[0], EK_d[0], iv[0]);
@@ -222,32 +218,16 @@ void Initialization(u8 *k, u8 *iv) {
     }
 }
 
-void GenerateKeystream(u32 *pKeystream, int KeystreamLen) {
+void GenerateKeyStream(unsigned int *pKeyStream, unsigned int KeyStreamLen){
     int i;
     {
         BitReorganization();
         F(); /* discard the output of F */
         LFSRWithWorkMode();
     }
-    for (i = 0; i < KeystreamLen; i++) {
+    for (i = 0; i < KeyStreamLen; i++) {
         BitReorganization();
-        pKeystream[i] = F() ^ BRC_X3;
+        pKeyStream[i] = F() ^ BRC_X3;
         LFSRWithWorkMode();
-    }
-}
-
-#include "stdlib.h"
-#include "stdio.h"
-
-int main() {
-    u8 iv[16] = {0x84, 0x31, 0x9a, 0xa8, 0xde, 0x69, 0x15, 0xca, 0x1f, 0x6b, 0xda, 0x6b, 0xfb, 0xd8, 0xc7, 0x66};
-    u8 k[16] = "1234567890123456";
-    Initialization(k, iv);
-    int keyStreamSize = 128;
-    u32 pks[keyStreamSize];
-    GenerateKeystream(pks, keyStreamSize);
-
-    for (int i = 0; i < keyStreamSize; ++i) {
-        printf("%u\n", pks[i]);
     }
 }
