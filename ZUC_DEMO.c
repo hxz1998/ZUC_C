@@ -1,4 +1,5 @@
 #include "ZUC.h"
+
 /* ——————————————————————- */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -218,7 +219,7 @@ void Initialization(unsigned char *k, unsigned char *iv) {
     }
 }
 
-void GenerateKeyStream(unsigned int *pKeyStream, unsigned int KeyStreamLen){
+void GenerateKeyStream(unsigned int *pKeyStream, unsigned int KeyStreamLen) {
     int i;
     {
         BitReorganization();

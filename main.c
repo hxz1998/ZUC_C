@@ -9,7 +9,7 @@ int main() {
     int keyStreamSize = 128;
     unsigned int pks[keyStreamSize];
     GenerateKeyStream(pks, keyStreamSize);
-
+    printf("key length : %llu bits\tinit vector length: %llu bits\n", sizeof(k) * 8, sizeof(iv) * 8);
     for (int i = 0; i < keyStreamSize; ++i) {
         printf("%d \t Ox%x\n", i, pks[i]);
     }
